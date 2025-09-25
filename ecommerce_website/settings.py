@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'django_countries',
-    'debug_toolbar',
     'crispy_bootstrap4',
     
 
@@ -57,7 +56,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', 
     'allauth.account.middleware.AccountMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce_website.urls'
@@ -161,11 +159,6 @@ if DEBUG:
         'SHOW_TOOLBAR_CALLBACK': show_toolbar,
     }
 
-
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
-}
 
 
 # Stripe (development keys)

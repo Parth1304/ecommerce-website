@@ -7,15 +7,15 @@ import os
 import django
 import pickle
 
-# Setup Django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ecommerce_website.settings")  # replace with your settings
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ecommerce_website.settings")  
 django.setup()
 
-from core.models import Item  # adjust if your app name is different
+from core.models import Item  
 
-# Load pretrained ResNet50 and remove final classification layer
+
 model = models.resnet50(pretrained=True)
-model = torch.nn.Sequential(*(list(model.children())[:-1]))  # remove last layer
+model = torch.nn.Sequential(*(list(model.children())[:-1]))  
 model.eval()
 
 # Image preprocessing
@@ -31,7 +31,7 @@ def get_embedding(img_path):
     img = transform(img).unsqueeze(0)
     with torch.no_grad():
         vec = model(img).squeeze().numpy()
-    return vec / np.linalg.norm(vec)  # normalize
+    return vec / np.linalg.norm(vec)  
 
 # Generate embeddings for all items
 for item in Item.objects.all():
