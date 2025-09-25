@@ -19,7 +19,7 @@ SECRET_KEY = config("SECRET_KEY", default="django-insecure-placeholder")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "ecommerce-website-wr5d.onrender.com"]
 
 
 # Application definition
