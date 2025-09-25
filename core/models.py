@@ -122,8 +122,7 @@ class Order(models.Model):
         'Payment', on_delete=models.SET_NULL, blank=True, null=True)
     being_delivered = models.BooleanField(default=False)
     received = models.BooleanField(default=False)
-    refund_requested = models.BooleanField(default=False)
-    refund_granted = models.BooleanField(default=False)
+  
 
     '''
     1. Item added to cart
@@ -133,7 +132,6 @@ class Order(models.Model):
     (Preprocessing, processing, packaging etc.)
     4. Being delivered
     5. Received
-    6. Refunds
     '''
 
     def __str__(self):
@@ -174,17 +172,6 @@ class Payment(models.Model):
         return self.user.username
 
 
- 
-
-
-class Refund(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    reason = models.TextField()
-    accepted = models.BooleanField(default=False)
-    email = models.EmailField()
-
-    def __str__(self):
-        return f"{self.pk}"
 
 
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
