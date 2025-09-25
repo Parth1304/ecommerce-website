@@ -1,0 +1,36 @@
+<!-- Navbar for categories only -->
+<nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
+
+  <!-- Navbar brand -->
+  <span class="navbar-brand">Categories:</span>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+    aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="basicExampleNav">
+
+    <!-- Links -->
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item {% if request.path == '/' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'core:home' %}">All</a>
+        </li>
+        <li class="nav-item {% if '/category/S/' in request.path %}active{% endif %}">
+            <a class="nav-link" href="{% url 'core:category' 'S' %}">Shirts</a>
+        </li>
+        <li class="nav-item {% if '/category/J/' in request.path %}active{% endif %}">
+            <a class="nav-link" href="{% url 'core:category' 'J' %}">Jeans</a>
+        </li>
+        <li class="nav-item {% if '/category/F/' in request.path %}active{% endif %}">
+            <a class="nav-link" href="{% url 'core:category' 'F' %}">Footwear</a>
+        </li>
+        <li class="nav-item {% if '/category/W/' in request.path %}active{% endif %}">
+            <a class="nav-link" href="{% url 'core:category' 'W' %}">Watches</a>
+        </li>
+    </ul>
+
+  </div>
+</nav>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main class="mt-5 pt-4">
+  <div class="container">
+    {% include "navbar2.html" %} 
+    <h2 class="mb-4">{{ selected_category }} Products</h2>
+
+    <div class="row">
+      {% for item in items %}
+      <div class="col-md-3 mb-4">
+        <div class="card">
+          <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">
+              {% if item.discount_price %}
+                <del>₹{{ item.price }}</del> ₹{{ item.discount_price }}
+              {% else %}
+                ₹{{ item.price }}
+              {% endif %}
+            </p>
+            <a href="{{ item.get_absolute_url }}" class="btn btn-primary btn-sm">View</a>
+            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-success btn-sm">Add to Cart</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+        <p>No items found in this category.</p>
+      {% endfor %}
+    </div>
+
+  </div>
+</main>
+{% endblock %}
