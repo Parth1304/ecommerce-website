@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 from .views import (
     ItemDetailView,
     CheckoutView,
@@ -25,5 +26,8 @@ urlpatterns = [
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
     path('category/<str:category>/', CategoryView.as_view(), name='category'),
+    path('item/<slug:slug>/', views.item_detail, name='item_detail'),
+    # Add new AJAX like endpoint
+    path('like-item-ajax/<slug:slug>/', views.like_item_ajax, name='like_item_ajax'),
 
 ]

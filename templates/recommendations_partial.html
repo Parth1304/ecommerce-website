@@ -1,0 +1,12 @@
+<div class="d-flex flex-wrap justify-content-center">
+  {% for rec in recommendations %}
+    <div style="margin:10px; text-align:center;">
+      <a href="{% url 'core:product' rec.slug %}">
+        <img src="{{ rec.image.url }}" width="150">
+        <p>{{ rec.title }}</p>
+      </a>
+    </div>
+  {% empty %}
+    <p>No recommendations yet.</p>
+  {% endfor %}
+</div>

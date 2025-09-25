@@ -4,6 +4,9 @@ from django.db import models
 from django.db.models import Sum
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
+import numpy as np
+import pickle
+from django.contrib.auth.models import User
 
 
 CATEGORY_CHOICES = (
@@ -44,24 +47,38 @@ class Item(models.Model):
     slug = models.SlugField()
     description = models.TextField()
     image = models.ImageField()
+    
+    # New field to store precomputed image embedding
+    embedding = models.BinaryField(blank=True, null=True)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("core:product", kwargs={
-            'slug': self.slug
-        })
+        return reverse("core:product", kwargs={'slug': self.slug})
 
     def get_add_to_cart_url(self):
-        return reverse("core:add-to-cart", kwargs={
-            'slug': self.slug
-        })
+        return reverse("core:add-to-cart", kwargs={'slug': self.slug})
 
     def get_remove_from_cart_url(self):
-        return reverse("core:remove-from-cart", kwargs={
-            'slug': self.slug
-        })
+        return reverse("core:remove-from-cart", kwargs={'slug': self.slug})
+
+    # Methods to set/get the embedding
+    def set_embedding(self, vector):
+        self.embedding = pickle.dumps(vector)
+
+    def get_embedding(self):
+        return pickle.loads(self.embedding) if self.embedding else None
+
+
+# New model to store user likes
+class UserLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} liked {self.item.title}"
 
 
 class OrderItem(models.Model):

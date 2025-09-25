@@ -17,13 +17,63 @@ from .models import Item, OrderItem, Order, Address, Payment, Refund, UserProfil
 from django.views import View
 from django.shortcuts import render
 from .models import Item, CATEGORY_CHOICES
-
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Item, UserLike
+from .recommend import get_recommendations 
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+# Update your existing ItemDetailView to include recommendations
+class ItemDetailView(DetailView):
+    model = Item
+    template_name = "products.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recommendations'] = get_recommendations(self.object)
+        return context
+
+# AJAX view for liking items
+def like_item_ajax(request, slug):
+    if request.method == 'POST':
+        item = get_object_or_404(Item, slug=slug)
+        UserLike.objects.get_or_create(user=request.user, item=item)
+        
+        # Get updated recommendations
+        recommendations = get_recommendations(item)
+        
+        # Render recommendations HTML
+        recommendations_html = render_to_string('recommendations_partial.html', {
+            'recommendations': recommendations
+        })
+        
+        return JsonResponse({
+            'success': True,
+            'recommendations_html': recommendations_html
+        })
+    
+    return JsonResponse({'success': False})
+
+
+def item_detail(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    recommendations = get_recommendations(item)
+    return render(request, "product.html", {  # change template name here
+        "item": item,
+        "recommendations": recommendations
+    })
+
+# Like a product
+def like_item(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    UserLike.objects.get_or_create(user=request.user, item=item)
+    return redirect("core:item_detail", slug=slug)
 
 def create_ref_code():
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=20))
+
 
 
 def products(request):
