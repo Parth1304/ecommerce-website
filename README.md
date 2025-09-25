@@ -3,7 +3,7 @@
 A Django-based e-commerce web application that supports product browsing, cart management, and a personalized recommendation system based on user likes and product image similarity. It also integrates Stripe for payments.
 
 ---
-### Demo
+### Demo video
 
 [![Video Title](https://img.youtube.com/vi/RJMWc1myCt4/0.jpg)](https://youtu.be/RJMWc1myCt4)
 
